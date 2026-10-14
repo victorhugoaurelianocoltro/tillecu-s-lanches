@@ -3,27 +3,11 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import GLBScene from './GLBScene'
 import Icon from './icons'
+import { FEATURED_PRODUCT_IDS, PRODUCTS } from '../../functions/src/catalog.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const menu = [
-  { title:'La Clásica', tag:'Firma', price:'12,90€',
-    desc:'Doble carne madurada, cheddar fundido, lechuga, tomate y salsa especial en pan brioche.',
-    model:'/tripo-hamburgers_generated_by_ai.glb', color:'#ff8800', baseRotateY:0 },
-  { title:'La Picante', tag:'Especial', price:'13,90€',
-    desc:'Jalapeños frescos, guacamole, cheddar ahumado y mayonesa de chipotle.',
-    model:'/hamburger__food_big-hamburger.glb', color:'#c0392b', baseRotateY:0 },
-  { title:'La Veggie', tag:'Plant-based', price:'11,90€',
-    desc:'Hamburguesa de garbanzos y setas, queso vegano, rúcula y salsa de yogur.',
-    model:'/hamburger__game_asset.glb', color:'#3d8b37', baseRotateY:0 },
-]
-const extras = [
-  { title:'La BBQ', tag:'Temporada', price:'14,50€', desc:'Bacon crujiente, aros de cebolla, salsa BBQ y queso gouda.' },
-  { title:'La Doble', tag:'XL', price:'15,90€', desc:'Dos patties de 180g, triple queso, panceta y salsas secretas.' },
-  { title:'La Trufa', tag:'Premium', price:'16,90€', desc:'Mayonesa de trufa negra, rúcula, parmesano y wagyu.' },
-]
-
-function Card({ item }) {
+function Card({ item, onAdd }) {
   const ref = useRef()
   useEffect(() => {
     const el = ref.current; if (!el) return
@@ -64,30 +48,32 @@ function Card({ item }) {
           <span className="text-amber-400 font-bold text-lg">{item.price}</span>
         </div>
         <p className="text-amber-200/60 text-sm leading-relaxed mb-5">{item.desc}</p>
-        <button className="w-full py-3 border border-amber-600/50 hover:bg-amber-600
+        <button type="button" onClick={() => onAdd(item.id)} className="w-full py-3 border border-amber-600/50 hover:bg-amber-600
                            rounded-xl text-amber-300 hover:text-white text-sm font-bold transition-all duration-200">
-          Pedir ahora
+          Peça agora
         </button>
       </div>
     </div>
   )
 }
 
-export default function Projects() {
+export default function Projects({ onAdd }) {
   return (
     <section id="menu" className="min-h-screen px-8 py-24 bg-[#0f0600]">
       <div className="max-w-6xl mx-auto">
-        <p className="text-amber-400 text-sm font-mono mb-3 tracking-widest uppercase text-center">Lo que hacemos</p>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center text-amber-100">Nuestras Estrellas</h2>
+        <p className="text-amber-400 text-sm font-mono mb-3 tracking-widest uppercase text-center">Tillecu’s Lanches</p>
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center text-amber-100">Cardápio</h2>
         <p className="text-amber-200/50 text-center mb-16 max-w-lg mx-auto">
-          Preparadas al momento con ingredientes seleccionados cada mañana
+          Hambúrgueres, porções e combos da casa
         </p>
         <div className="grid md:grid-cols-3 gap-8 mb-10">
-          {menu.map((item,i) => <Card key={i} item={item} />)}
+          {PRODUCTS.filter((item) => FEATURED_PRODUCT_IDS.includes(item.id)).map((item) => <Card key={item.id} item={item} onAdd={onAdd} />)}
         </div>
         <div className="grid md:grid-cols-3 gap-4">
-          {extras.map((item,i) => (
-            <div key={i} className="flex gap-4 items-center border border-amber-900/20
+          {PRODUCTS.filter((item) => !FEATURED_PRODUCT_IDS.includes(item.id)).map((item) => (
+            <div key={item.id} role="button" tabIndex={0} onClick={() => onAdd(item.id)} onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onAdd(item.id) }
+            }} aria-label={`Adicionar ${item.title} ao carrinho`} className="flex gap-4 items-center border border-amber-900/20
                          rounded-2xl p-4 bg-[#0f0400] hover:border-amber-500/30
                          hover:-translate-y-1 transition-all duration-300 cursor-pointer">
               <div className="w-14 h-14 rounded-xl bg-amber-900/20 flex items-center justify-center flex-shrink-0 text-2xl text-amber-500"><Icon name="burger" /></div>

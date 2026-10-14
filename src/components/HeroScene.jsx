@@ -5,7 +5,7 @@ export default function HeroScene() {
   return (
     <div className="absolute inset-0">
       {/* Foto de hamburguesa — opacidad completa */}
-      <img src={BURGER_URL} alt="Hamburguesa artesana"
+      <img src={BURGER_URL} alt="Hambúrguer artesanal"
         className="hero-bg absolute inset-0 w-full h-full object-cover object-center" />
       {/* Gradiente izquierda→derecha para legibilidad del texto */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#0d0400]/92 via-[#0d0400]/55 to-transparent" />

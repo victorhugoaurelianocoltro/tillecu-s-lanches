@@ -31,4 +31,7 @@ agents/
 skills/
 .env
 .env.*
+functions/.env
+functions/.env.*
+!functions/.env.example
 .firebase/

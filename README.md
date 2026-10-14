@@ -1,4 +1,4 @@
-# Burger House — 3D website for a burger restaurant
+# Tillecu’s Lanches — site 3D para hamburgueria
 
 > **Immersive 3D web** · React + Vite + Three.js (R3F) + GSAP · Real 3D models with real-time interaction
 > **Status:** Deployed to production · 2026-06

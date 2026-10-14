@@ -3,7 +3,7 @@
 // cuadrados en sistemas sin fuente de emoji a color
 import Icon from './icons'
 
-const items = ['FRESH', 'icon:flame', 'ARTISAN', '★', 'HAND-MADE', 'icon:burger', 'FIRE-GRILLED', '✦', 'SINCE 1987', 'icon:flame', 'NO FROZEN', '✦']
+const items = ['TILLECU’S LANCHES', 'icon:flame', 'HAMBÚRGUERES', '★', 'DA CASA', 'icon:burger', 'PORÇÕES', '✦', 'COMBOS', 'icon:flame', 'PEÇA PELO DELIVERY', '✦']
 
 export default function Marquee({ reverse = false }) {
   const content = [...items, ...items]

@@ -6,10 +6,10 @@ import GLBScene from './GLBScene'
 gsap.registerPlugin(ScrollTrigger)
 
 const STATS = [
-  { label:'Años de experiencia', value:37, suffix:'' },
-  { label:'Ingredientes frescos', value:100, suffix:'%' },
-  { label:'Recetas propias', value:24, suffix:'+' },
-  { label:'Clientes satisfechos', value:50, suffix:'k+' },
+  { label:'Lanches no cardápio', value:19, suffix:'' },
+  { label:'Opções de porções', value:6, suffix:'' },
+  { label:'Combos do cardápio', value:6, suffix:'' },
+  { label:'Combos promocionais', value:5, suffix:'' },
 ]
 
 function Counter({ value, suffix, label }) {
@@ -71,15 +71,13 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
           {/* Texto */}
           <div className="about-text">
-            <p className="text-amber-400 text-sm font-mono mb-3 tracking-widest uppercase">Nuestra historia</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-amber-100">Hechas con obsesión</h2>
+            <p className="text-amber-400 text-sm font-mono mb-3 tracking-widest uppercase">Sobre a Tillecu’s Lanches</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-amber-100">Hambúrgueres da casa</h2>
             <p className="text-amber-200/70 text-lg leading-relaxed mb-6">
-              Desde 1987, cada hamburguesa lleva el mismo compromiso: ingredientes frescos,
-              recetas propias y el fuego justo para ese sabor que no se olvida.
+              O cardápio da Tillecu’s Lanches reúne hambúrgueres, porções e combos para pedir pelo delivery.
             </p>
             <p className="text-amber-200/50 leading-relaxed">
-              Sin congelados. Sin atajos. Solo carne de primera, pan artesano horneado cada mañana
-              y salsas que preparamos con ingredientes de temporada.
+              Confira as opções e os valores do cardápio e faça seu pedido pelo telefone.
             </p>
           </div>
           {/* Modelo 3D */}
