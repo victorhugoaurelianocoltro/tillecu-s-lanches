@@ -59,10 +59,11 @@ test('valida região, endereço e taxa com valores de configuração do servidor
   const order = normalizeOrder({
     ...baseOrder,
     fulfillment: 'delivery',
-    address: { street: 'Rua Exemplo', number: '10', neighborhood: 'Centro', city: 'Jandira', postalCode: '06600000' },
+    address: { street: 'Rua Exemplo', number: '10', neighborhood: 'Centro', city: 'Jandira', state: 'SP', postalCode: '06600000' },
   }, { deliveryFeeCents: 500, deliveryAreas: [{ neighborhood: 'Centro', city: 'Jandira' }] })
   assert.equal(order.totalCents, 5500)
   assert.equal(order.deliveryFeeCents, 500)
+  assert.equal(order.address.state, 'SP')
   assert.throws(() => normalizeOrder({
     ...baseOrder,
     fulfillment: 'delivery',

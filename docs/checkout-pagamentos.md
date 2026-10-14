@@ -41,18 +41,20 @@ O checkout não está operacional em produção até completar todos estes passo
 
 7. Configure e teste primeiro com credenciais de teste do Mercado Pago e um domínio HTTPS de homologação. Depois de verificar webhook, valores e estados de pagamento, troque para credenciais de produção e repita a compra de ponta a ponta. Não use links de sandbox como evidência de operação real.
 
-Para desenvolvimento, use os emuladores Firebase e mantenha secrets de teste somente em `functions/.secret.local` (arquivo ignorado pelo Git). O checkout ainda requer um site HTTPS acessível para retornar do Mercado Pago; não tente validar o redirecionamento usando localhost.
+Para desenvolvimento, use os emuladores Firebase e mantenha secrets de teste somente em `functions/.secret.local` (arquivo ignorado pelo Git). Sem emulador nem `VITE_API_PROXY_TARGET`, o Vite inicia uma simulação local do checkout: pedidos e endereços ficam somente em memória, os valores são calculados pelo catálogo e a tela permite simular aprovação, pendência ou recusa. A entrega simulada aceita endereço livre e não calcula taxa; isso não confirma cobertura da loja. A simulação não chama o Mercado Pago, não movimenta dinheiro e perde os pedidos ao reiniciar o servidor. Ela existe somente no middleware de desenvolvimento do Vite; não é incluída no build nem nas Cloud Functions.
+
+Para usar o backend real em desenvolvimento, inicie os emuladores com `VITE_FIREBASE_PROJECT_ID=SEU_PROJECT_ID` ou defina `VITE_API_PROXY_TARGET` para uma API publicada. Um pagamento real ainda requer site HTTPS público e as credenciais descritas acima; não valide o redirecionamento do Mercado Pago usando localhost.
 
 A Function está na região `southamerica-east1`; o Firebase Hosting encaminha `/api/**` para ela. `vite.config.js` encaminha `/api` ao emulador local, usando `demo-tillecus-lanches` como ID de demonstração. Para testar o redirecionamento do Mercado Pago, use um domínio HTTPS acessível; o Mercado Pago não aceita `localhost` como URL de retorno.
 
-## Diagnóstico executado em 2026-10-14
+## Diagnóstico histórico em 2026-10-14
 
 - No navegador local, `GET http://127.0.0.1:5173/api/catalog` respondeu `502`. O proxy antigo apontava para `127.0.0.1:5001/demo-tillecus-lanches/southamerica-east1/api`, mas a porta 5001 não tinha listener.
 - Não há Firebase CLI instalado, `.firebaserc`, nem `.env.<projectId>`/`.secret.local` no ambiente. `MERCADOPAGO_ACCESS_TOKEN`, `MERCADOPAGO_WEBHOOK_SECRET` e `PUBLIC_SITE_URL` também não estão definidos no processo.
 - O domínio antigo `https://burger-house-3d.web.app/api/catalog` respondeu `200` com HTML da versão anterior Burger House em espanhol, não JSON. Isso é o fallback SPA, não uma API funcionando.
 - `https://southamerica-east1-burger-house-3d.cloudfunctions.net/api/catalog` respondeu `404`. A Function desta integração não está publicada nesse projeto/rota. Não foi possível testar credenciais, criar preferência real ou confirmar webhook.
 
-Para desenvolvimento, rode o emulador no mesmo project ID configurado no Vite e passe `VITE_FIREBASE_PROJECT_ID=SEU_PROJECT_ID` ao iniciar `npm run dev`. Para apontar o navegador a uma Function já publicada, use `VITE_API_PROXY_TARGET=https://southamerica-east1-SEU_PROJECT_ID.cloudfunctions.net/api` antes de `npm run dev`. Sem um desses valores, o Vite agora responde `503` JSON explícito em `/api/**` em vez de mascarar a ausência do backend com `502`.
+O diagnóstico acima registra o estado anterior à simulação local. Atualmente, sem um project ID nem `VITE_API_PROXY_TARGET`, o Vite usa o checkout fictício descrito nesta página. Para apontar o navegador a uma Function já publicada, use `VITE_API_PROXY_TARGET=https://southamerica-east1-SEU_PROJECT_ID.cloudfunctions.net/api` antes de `npm run dev`.
 
 O domínio `burger-house-3d.web.app` contém o deployment antigo. Faça login e selecione o projeto Firebase correto antes de publicar; não use o project ID antigo por suposição. Após identificar o projeto do estabelecimento, os comandos são:
 

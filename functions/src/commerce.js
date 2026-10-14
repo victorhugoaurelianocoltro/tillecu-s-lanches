@@ -84,11 +84,12 @@ export function normalizeOrder(body, config = {}) {
     const candidate = body.address || {}
     const neighborhood = text(candidate.neighborhood, 100)
     const city = text(candidate.city, 100)
+    const state = text(candidate.state, 2).toUpperCase()
     const validArea = config.deliveryAreas.some((area) => normalizedArea(area.neighborhood) === normalizedArea(neighborhood) && normalizedArea(area.city) === normalizedArea(city))
     const street = text(candidate.street, 120)
     const number = text(candidate.number, 20)
     const postalCode = text(candidate.postalCode, 16).replace(/\D/g, '')
-    if (!validArea || street.length < 3 || !number || postalCode.length !== 8) {
+    if (!validArea || street.length < 3 || !number || postalCode.length !== 8 || (state && !/^[A-Z]{2}$/.test(state))) {
       throw new CommerceError(400, 'invalid_address', 'Informe endereço, CEP e uma região atendida.')
     }
     address = {
@@ -97,6 +98,7 @@ export function normalizeOrder(body, config = {}) {
       complement: text(candidate.complement, 100),
       neighborhood,
       city,
+      state,
       postalCode,
     }
     deliveryFeeCents = config.deliveryFeeCents
