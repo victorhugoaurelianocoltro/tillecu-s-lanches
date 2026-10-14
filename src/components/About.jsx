@@ -83,7 +83,7 @@ export default function About() {
           {/* Modelo 3D */}
           <div className="about-glb h-80 md:h-[420px] rounded-3xl overflow-hidden
                           border border-amber-900/20 bg-[#0a0300]">
-            <GLBScene path="/hamburger__food_big-hamburger.glb"
+            <GLBScene path={`${import.meta.env.BASE_URL}hamburger__food_big-hamburger.glb`}
               className="w-full h-full" targetSize={2.6}
               cameraZ={4.2} fov={45} env="sunset" exposure={1.5} />
           </div>

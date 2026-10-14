@@ -25,10 +25,14 @@ function ficheros(dir) {
   })
 }
 
-const FUENTES = [...ficheros(join(RAIZ, 'src')), join(RAIZ, 'index.html')]
+const FUENTES = [
+  ...ficheros(join(RAIZ, 'src')),
+  join(RAIZ, 'index.html'),
+  join(RAIZ, 'functions', 'src', 'catalog.js'),
+]
 
-// Rutas absolutas a un fichero con extensión de recurso, entre comillas.
-const PATRON = /['"](\/[A-Za-z0-9_./-]+\.(?:glb|gltf|png|jpe?g|webp|avif|svg|hdr|mp3|mp4|woff2?))['"]/g
+// Rutas absolutas y marcadores Vite basePath a recursos locales.
+const PATRON = /['"]((?:\/|%BASE_URL%)[A-Za-z0-9_./-]+\.(?:glb|gltf|png|jpe?g|webp|avif|svg|hdr|mp3|mp4|woff2?))['"]/g
 
 test('el recorrido encuentra fuentes que revisar', () => {
   assert.ok(FUENTES.length > 3, `solo ${FUENTES.length} ficheros: pasaría en vacío`)
@@ -50,8 +54,8 @@ test('todos los assets referenciados existen en public/', () => {
 
   const rotas = []
   for (const [ruta, usos] of referencias) {
-    // Las rutas absolutas se sirven desde public/ en Vite.
-    if (!existsSync(join(PUBLICO, ruta))) {
+    const rutaPublica = ruta.replace(/^\/|^%BASE_URL%/, '')
+    if (!existsSync(join(PUBLICO, rutaPublica))) {
       rotas.push(`${ruta}  (usada en ${[...new Set(usos)].join(', ')})`)
     }
   }

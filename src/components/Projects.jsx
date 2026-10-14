@@ -30,7 +30,7 @@ function Card({ item, onAdd }) {
       style={{willChange:'transform'}}>
       <div className="relative h-72 rounded-t-3xl overflow-hidden"
            style={{background:'radial-gradient(ellipse at 50% 60%, #220a00, #060200)'}}>
-        <GLBScene path={item.model} className="w-full h-full"
+        <GLBScene path={item.model ? `${import.meta.env.BASE_URL}${item.model.replace(/^\/+/, '')}` : undefined} className="w-full h-full"
           targetSize={2.3} cameraZ={3.6} fov={50}
           baseRotateY={item.baseRotateY} sway={0.25}
           env="sunset" exposure={1.6} ambientIntensity={0.85} />

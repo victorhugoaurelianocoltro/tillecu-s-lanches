@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { env } from 'node:process'
 
 const projectId = env.VITE_FIREBASE_PROJECT_ID || env.GCLOUD_PROJECT
+const basePath = env.GITHUB_PAGES === 'true' ? '/tillecu-s-lanches/' : '/'
 const apiProxyTarget = env.VITE_API_PROXY_TARGET || (projectId
   ? `http://127.0.0.1:5001/${projectId}/southamerica-east1/api`
   : null)
@@ -26,6 +27,7 @@ const commerceApiFallback = {
 }
 
 export default defineConfig({
+  base: basePath,
   plugins: [react(), tailwindcss(), commerceApiFallback],
   server: {
     proxy: apiProxyTarget ? {

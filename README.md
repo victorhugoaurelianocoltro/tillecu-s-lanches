@@ -1,5 +1,13 @@
 # Tillecu’s Lanches — site 3D para hamburgueria
 
+## Visualização
+
+Site publicado pelo GitHub Actions: https://victorhugoaurelianocoltro.github.io/tillecu-s-lanches/
+
+No repositório, habilite **Settings → Pages → Build and deployment → Source: GitHub Actions**. O workflow publica a pasta `dist` a cada push na branch `main`.
+
+O GitHub Pages hospeda somente o frontend estático. O checkout real depende da implantação separada do Firebase descrita em [docs/checkout-pagamentos.md](docs/checkout-pagamentos.md).
+
 > **Immersive 3D web** · React + Vite + Three.js (R3F) + GSAP · Real 3D models with real-time interaction
 > **Status:** Deployed to production · 2026-06
 
